@@ -3,17 +3,6 @@ import requests
 from urllib.parse import urlparse
 
 
-TOKEN = os.getenv('TOKEN')
-response_links_nasa = requests.get(
-    'https://api.nasa.gov/planetary/apod?count=30&api_key={}'.format(TOKEN))
-response_links_epic = requests.get(
-    'https://api.nasa.gov/EPIC/api/natural?api_key={}'.format(TOKEN))
-nasa_path = 'NASA_images/'
-epic_path = 'Epic_images/'
-links_nasa = response_links_nasa.json()
-epic_images_info = response_links_epic.json()[:5]
-
-
 def fetch_file_format(link_nasa_image):
     path_from_link = urlparse(link_nasa_image).path
     file_format = os.path.splitext(path_from_link)[1]
@@ -42,7 +31,17 @@ def fetch_epic_images(epic_images_info):
 
 
 if __name__ == '__main__':
+    TOKEN = os.getenv('TOKEN')
+    response_links_nasa = requests.get(
+        'https://api.nasa.gov/planetary/apod?count=30&api_key={}'.format(TOKEN))
+    response_links_epic = requests.get(
+        'https://api.nasa.gov/EPIC/api/natural?api_key={}'.format(TOKEN))
+    nasa_path = 'NASA_images/'
+    epic_path = 'Epic_images/'
+    links_nasa = response_links_nasa.json()
+    epic_images_info = response_links_epic.json()[:5]
     for link_nasa in links_nasa:
         link_nasa_image = link_nasa['hdurl']
+
         fetch_nasa_images(link_nasa_image)
     fetch_epic_images(epic_images_info)
