@@ -34,6 +34,16 @@ CHAT_ID=полученный id
 pip install -r requirements.txt
 ```
 
-6. Запускаем проект.
+## Как запустить 
+
+1. Откройте cmd.
+2. Пропишите cd и путь к папке проекта.
+3. Пропишите следующие команды:
+```
+python fetch_nasa.py
+python fetch_spacex.py
+python main.py
+```
+
 ## Цель проекта
 Код написан в образовательных целях на онлайн-курсе для веб-разработчиков [dvmn.org](https://dvmn.org/).
