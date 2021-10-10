@@ -23,7 +23,7 @@ def fetch_epic_images(epic_images_info):
         date = epic_image_info['date'].split(' ')[0].split('-')
         epic_image_link = 'https://api.nasa.gov/EPIC/archive/natural/{}/{}/{}/png/{}.png' \
                           '?api_key={}'.format(date[0], date[1], date[2],
-                                               epic_image_info['image'], TOKEN)
+                                               epic_image_info['image'], NASA_TOKEN)
         response = requests.get(epic_image_link)
         response.raise_for_status()
         with open(epic_path + epic_image_info['image'] + '.png', 'wb') as file:
@@ -31,11 +31,11 @@ def fetch_epic_images(epic_images_info):
 
 
 if __name__ == '__main__':
-    TOKEN = os.getenv('TOKEN')
+    NASA_TOKEN = os.getenv('NASA_TOKEN')
     response_links_nasa = requests.get(
-        'https://api.nasa.gov/planetary/apod?count=30&api_key={}'.format(TOKEN))
+        'https://api.nasa.gov/planetary/apod?count=30&api_key={}'.format(NASA_TOKEN))
     response_links_epic = requests.get(
-        'https://api.nasa.gov/EPIC/api/natural?api_key={}'.format(TOKEN))
+        'https://api.nasa.gov/EPIC/api/natural?api_key={}'.format(NASA_TOKEN))
     nasa_path = 'NASA_images/'
     epic_path = 'Epic_images/'
     links_nasa = response_links_nasa.json()
