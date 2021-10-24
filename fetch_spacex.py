@@ -10,6 +10,7 @@ def fetch_spacex_last_launch(link, link_number):
 
 def main():
     links_spacex = requests.get('https://api.spacexdata.com/v4/launches/latest').json()['links']['flickr']['original']
+    links_spacex.raise_for_status()
     for link_number, link in enumerate(links_spacex):
         print(link_number)
         fetch_spacex_last_launch(link, link_number)

@@ -34,8 +34,10 @@ def main():
     nasa_token = os.getenv('NASA_TOKEN')
     response_links_nasa = requests.get(
         'https://api.nasa.gov/planetary/apod?count=30&api_key={}'.format(nasa_token))
+    response_links_nasa.raise_for_status()
     response_links_epic = requests.get(
         'https://api.nasa.gov/EPIC/api/natural?api_key={}'.format(nasa_token))
+    response_links_epic.raise_for_status()
     links_nasa = response_links_nasa.json()
     epic_images_info = response_links_epic.json()[:5]
     for link_nasa in links_nasa:
