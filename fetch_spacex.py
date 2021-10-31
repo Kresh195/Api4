@@ -1,19 +1,23 @@
 import requests
 
 
-def fetch_spacex_last_launch(link, link_number):
+def download_image(link, path):
     response = requests.get(link)
     response.raise_for_status()
-    with open('Spacex_images/spacex{}.jpg'.format(link_number), 'wb') as file:
+    with open(path, 'wb') as file:
         file.write(response.content)
 
 
-def main():
+def fetch_spacex_last_launch():
     links_spacex = requests.get('https://api.spacexdata.com/v4/launches/latest').json()['links']['flickr']['original']
     links_spacex.raise_for_status()
     for link_number, link in enumerate(links_spacex):
-        print(link_number)
-        fetch_spacex_last_launch(link, link_number)
+        path = 'Spacex_images/spacex{}.jpg'.format(link_number)
+        download_image(link, path)
+
+
+def main():
+    fetch_spacex_last_launch()
 
 
 if __name__ == '__main__':

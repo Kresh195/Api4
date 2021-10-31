@@ -1,6 +1,7 @@
 import os
 import requests
 from urllib.parse import urlparse
+from fetch_spacex import download_image
 
 
 def fetch_file_format(link_nasa_image):
@@ -12,10 +13,8 @@ def fetch_file_format(link_nasa_image):
 
 def fetch_nasa_images(link_nasa_image):
     file_format, file_name = fetch_file_format(link_nasa_image)
-    response = requests.get(link_nasa_image)
-    response.raise_for_status()
-    with open('NASA_images/{}{}'.format(file_name, file_format), 'wb') as file:
-        file.write(response.content)
+    path = 'NASA_images/{}{}'.format(file_name, file_format)
+    download_image(link_nasa_image, path)
 
 
 def fetch_epic_images(epic_images_info, nasa_token):
@@ -24,10 +23,8 @@ def fetch_epic_images(epic_images_info, nasa_token):
         epic_image_link = 'https://api.nasa.gov/EPIC/archive/natural/{}/{}/{}/png/{}.png' \
                           '?api_key={}'.format(date[0], date[1], date[2],
                                                epic_image_info['image'], nasa_token)
-        response = requests.get(epic_image_link)
-        response.raise_for_status()
-        with open('Epic_images/{}.png'.format(epic_image_info['image']), 'wb') as file:
-            file.write(response.content)
+        path = 'Epic_images/{}.png'.format(epic_image_info['image'])
+        download_image(epic_image_link, path)
 
 
 def main():
@@ -42,7 +39,6 @@ def main():
     epic_images_info = response_links_epic.json()[:5]
     for link_nasa in links_nasa:
         link_nasa_image = link_nasa['hdurl']
-
         fetch_nasa_images(link_nasa_image)
     fetch_epic_images(epic_images_info, nasa_token)
 
