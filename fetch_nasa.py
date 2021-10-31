@@ -6,14 +6,14 @@ from fetch_spacex import download_image
 
 def fetch_file_format(link_nasa_image):
     path_from_link = urlparse(link_nasa_image).path
-    file_format = os.path.splitext(path_from_link)[1]
-    file_name = os.path.split(path_from_link)[1].split('.')[0]
-    return file_format, file_name
+    file_name = os.path.split(path_from_link)[1]
+    name, file_format = os.path.splitext(file_name)
+    return format, name
 
 
 def fetch_nasa_images(link_nasa_image):
-    file_format, file_name = fetch_file_format(link_nasa_image)
-    path = 'NASA_images/{}{}'.format(file_name, file_format)
+    file_format, name = fetch_file_format(link_nasa_image)
+    path = 'NASA_images/{}{}'.format(name, file_format)
     download_image(link_nasa_image, path)
 
 
