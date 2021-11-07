@@ -18,22 +18,24 @@ def fetch_nasa_images(link_nasa_image):
 
 
 def fetch_epic_images(epic_images_info, nasa_token):
+    payload = {"api_key": nasa_token}
     for epic_image_info in epic_images_info:
         date = epic_image_info['date'].split(' ')[0].split('-')
-        epic_image_link = 'https://api.nasa.gov/EPIC/archive/natural/{}/{}/{}/png/{}.png' \
-                          '?api_key={}'.format(date[0], date[1], date[2],
-                                               epic_image_info['image'], nasa_token)
+        epic_image_link = 'https://api.nasa.gov/EPIC/archive/natural/{}/{}/{}/png/{}.png'.format(
+            date[0], date[1], date[2], epic_image_info['image'])
         path = 'Epic_images/{}.png'.format(epic_image_info['image'])
-        download_image(epic_image_link, path)
+        download_image(epic_image_link, path, payload=payload)
 
 
 def main():
     nasa_token = os.getenv('NASA_TOKEN')
+    payload = {"count": "30", "api_key": nasa_token}
     response_links_nasa = requests.get(
-        'https://api.nasa.gov/planetary/apod?count=30&api_key={}'.format(nasa_token))
+        'https://api.nasa.gov/planetary/apod?', params=payload)
     response_links_nasa.raise_for_status()
+    payload = {"api_key": nasa_token}
     response_links_epic = requests.get(
-        'https://api.nasa.gov/EPIC/api/natural?api_key={}'.format(nasa_token))
+        'https://api.nasa.gov/EPIC/api/natural', params=payload)
     response_links_epic.raise_for_status()
     links_nasa = response_links_nasa.json()
     epic_images_info = response_links_epic.json()[:5]
