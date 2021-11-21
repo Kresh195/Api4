@@ -6,17 +6,17 @@ from dotenv import load_dotenv
 import time
 
 
-def fetch_file_format(link_nasa_image):
-    path_from_link = urlparse(link_nasa_image).path
+def fetch_file_format(nasa_link_image):
+    path_from_link = urlparse(nasa_link_image).path
     file_name = os.path.split(path_from_link)[1]
     name, file_format = os.path.splitext(file_name)
     return file_format, name
 
 
-def fetch_nasa_images(link_nasa_image):
-    file_format, name = fetch_file_format(link_nasa_image)
+def fetch_nasa_images(nasa_link_image):
+    file_format, name = fetch_file_format(nasa_link_image)
     path = 'NASA_images/{}{}'.format(name, file_format)
-    download_image(link_nasa_image, path)
+    download_image(nasa_link_image, path)
 
 
 def fetch_epic_images(epic_images_info, nasa_token):
@@ -34,18 +34,18 @@ def main():
     load_dotenv()
     nasa_token = os.getenv('NASA_TOKEN')
     payload = {"count": "30", "api_key": nasa_token}
-    response_links_nasa = requests.get(
+    nasa_links_response = requests.get(
         'https://api.nasa.gov/planetary/apod', params=payload)
-    response_links_nasa.raise_for_status()
+    nasa_links_response.raise_for_status()
     payload = {"api_key": nasa_token}
-    response_links_epic = requests.get(
+    epic_links_response = requests.get(
         'https://api.nasa.gov/EPIC/api/natural', params=payload)
-    response_links_epic.raise_for_status()
-    links_nasa = response_links_nasa.json()
-    epic_images_info = response_links_epic.json()[:5]
-    for link_nasa in links_nasa:
-        link_nasa_image = link_nasa['hdurl']
-        fetch_nasa_images(link_nasa_image)
+    epic_links_response.raise_for_status()
+    nasa_links = nasa_links_response.json()
+    epic_images_info = epic_links_response.json()[:5]
+    for nasa_link in nasa_links:
+        nasa_link_image = nasa_link['hdurl']
+        fetch_nasa_images(nasa_link_image)
     fetch_epic_images(epic_images_info, nasa_token)
 
 

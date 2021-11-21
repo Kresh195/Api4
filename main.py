@@ -18,15 +18,15 @@ def main():
     bot = telegram.Bot(token=tg_token)
     tg_chat_id = os.getenv('TG_CHAT_ID')
     nasa_path = 'NASA_images/'
-    nasa_images_for_sending = listdir(nasa_path)
+    nasa_images = listdir(nasa_path)
     spacex_path = 'Spacex_images/'
-    spacex_images_for_sending = listdir(spacex_path)
+    spacex_images = listdir(spacex_path)
     epic_path = 'Epic_images/'
-    epic_images_for_sending = listdir(epic_path)
+    epic_images = listdir(epic_path)
     while True:
-        send_images(nasa_images_for_sending, nasa_path, bot, tg_chat_id)
-        send_images(spacex_images_for_sending, spacex_path, bot, tg_chat_id)
-        send_images(epic_images_for_sending, epic_path, bot, tg_chat_id)
+        send_images(nasa_images, nasa_path, bot, tg_chat_id)
+        send_images(spacex_images, spacex_path, bot, tg_chat_id)
+        send_images(epic_images, epic_path, bot, tg_chat_id)
 
 
 if __name__ == '__main__':
