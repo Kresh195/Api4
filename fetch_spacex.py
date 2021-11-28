@@ -1,13 +1,5 @@
 import requests
-
-
-def download_image(link, path, payload=None):
-    if payload is None:
-        payload = {}
-    response = requests.get(link, params=payload)
-    response.raise_for_status()
-    with open(path, 'wb') as file:
-        file.write(response.content)
+from image_downloading import download_image
 
 
 def fetch_spacex_last_launch():

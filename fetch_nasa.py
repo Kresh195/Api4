@@ -1,7 +1,7 @@
 import os
 import requests
 from urllib.parse import urlparse
-from fetch_spacex import download_image
+from image_downloading import download_image
 from dotenv import load_dotenv
 import time
 
