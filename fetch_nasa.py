@@ -33,7 +33,7 @@ def fetch_epic_images(nasa_token):
     epic_links_response.raise_for_status()
     epic_images = epic_links_response.json()[:5]
     for epic_image in epic_images:
-        date = epic_image['formatted_date'].split(' ')[0]
+        date = epic_image['date'].split(' ')[0]
         formatted_date = time.strftime('%Y/%m/%d', time.strptime(date, '%Y-%m-%d'))
         epic_image_link = 'https://api.nasa.gov/EPIC/archive/natural/{}/png/{}.png'.format(
             formatted_date, epic_image['image'])
