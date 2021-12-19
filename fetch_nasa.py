@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import time
 
 
-def fetch_file(nasa_link_image):
+def get_file_meta(nasa_link_image):
     path_from_link = urlparse(nasa_link_image).path
     file_name = os.path.split(path_from_link)[1]
     name, file_format = os.path.splitext(file_name)
@@ -21,7 +21,7 @@ def fetch_nasa_images(nasa_token):
     nasa_links = nasa_links_response.json()
     for nasa_link in nasa_links:
         nasa_link_image = nasa_link['hdurl']
-        file_format, name = fetch_file(nasa_link_image)
+        file_format, name = get_file_meta(nasa_link_image)
         path = 'NASA_images/{}{}'.format(name, file_format)
         download_image(nasa_link_image, path)
 
